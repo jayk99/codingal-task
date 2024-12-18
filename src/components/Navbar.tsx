@@ -29,7 +29,7 @@ const Navbar = () => {
             <div className="flex items-center pr-4 border-r border-gray-300">
               <img
                 className="h-7 w-7 rounded-sm"
-                src="/public/assets/icons/codingal.png"
+                src="/public/codingal.png"
                 alt="Codingal Logo"
               />
               <span className="ml-2 text-xl font-medium text-gray-900 md:hidden">
