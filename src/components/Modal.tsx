@@ -11,37 +11,39 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
   const [mainReason, setMainReason] = useState<string | null>(null);
   const [subReason, setSubReason] = useState<string | null>(null);
-  const [otherReason, setOtherReason] = useState("");
-  const [isEndClassDisabled, setIsEndClassDisabled] = useState(true);
+  const [otherText, setOtherText] = useState("");
+  const [canEndClass, setCanEndClass] = useState(false);
 
   const mainReasons = ["Class completed", "Class interrupted/aborted"];
 
   const subReasons = [
-    "Student didn't show up for the class.",
+    "Student didn't show up for the class",
     "Student didn't show any interest.",
-    "Student got disconnected.",
-    "I got disconnected.",
+    "Student got disconnected",
+    "I got disconnected",
     "Other reason",
   ];
 
   useEffect(() => {
-    const isValid =
+    const isValid = !!(
       mainReason === "Class completed" ||
       (mainReason === "Class interrupted/aborted" &&
         subReason &&
-        (subReason !== "Other reason" || otherReason.trim() !== ""));
-    setIsEndClassDisabled(!isValid);
-  }, [mainReason, subReason, otherReason]);
+        (subReason !== "Other reason" || otherText.trim()))
+    );
 
-  const handleMainReasonSelect = (reason: string) => {
-    setMainReason((prev) => (prev === reason ? null : reason));
+    setCanEndClass(isValid);
+  }, [mainReason, subReason, otherText]);
+
+  const selectMainReason = (reason: string) => {
+    setMainReason(mainReason === reason ? null : reason);
     setSubReason(null);
-    setOtherReason("");
+    setOtherText("");
   };
 
-  const handleSubReasonSelect = (reason: string) => {
-    setSubReason((prev) => (prev === reason ? null : reason));
-    if (reason !== "Other reason") setOtherReason("");
+  const selectSubReason = (reason: string) => {
+    setSubReason(subReason === reason ? null : reason);
+    if (reason !== "Other reason") setOtherText("");
   };
 
   return (
@@ -67,7 +69,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
           {mainReasons.map((reason) => (
             <button
               key={reason}
-              onClick={() => handleMainReasonSelect(reason)}
+              onClick={() => selectMainReason(reason)}
               className="flex items-center w-full text-left group"
             >
               <div
@@ -116,7 +118,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
                   {subReasons.map((reason) => (
                     <button
                       key={reason}
-                      onClick={() => handleSubReasonSelect(reason)}
+                      onClick={() => selectSubReason(reason)}
                       className="flex items-center w-full text-left group"
                     >
                       <div
@@ -166,8 +168,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
                 className="overflow-hidden pt-2 ml-4 sm:ml-8"
               >
                 <textarea
-                  value={otherReason}
-                  onChange={(e) => setOtherReason(e.target.value)}
+                  value={otherText}
+                  onChange={(e) => setOtherText(e.target.value)}
                   placeholder="Type here"
                   className="w-full p-4 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:border-[#F87171] focus:ring-0 min-h-[120px] text-sm sm:text-[15px] outline-none resize-none"
                 />
@@ -185,10 +187,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
           </button>
           <button
             onClick={onConfirm}
-            disabled={isEndClassDisabled}
+            disabled={!canEndClass}
             className={`px-4 sm:px-6 py-2.5 text-white rounded-lg text-base sm:text-[17px] font-medium transition-colors
               ${
-                isEndClassDisabled
+                !canEndClass
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-[#F87171] hover:bg-[#EF4444]"
               }`}

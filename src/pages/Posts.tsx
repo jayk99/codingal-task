@@ -14,8 +14,10 @@ const Posts: React.FC = () => {
 
   const loaderRef = useRef<HTMLDivElement>(null);
 
+  const MAX_PAGES = 10;
+
   const loadPosts = useCallback(async () => {
-    if (loading || !hasMore) return;
+    if (loading || !hasMore || page > MAX_PAGES) return;
 
     setLoading(true);
     setError(null);

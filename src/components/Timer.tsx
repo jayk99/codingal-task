@@ -6,24 +6,25 @@ interface TimerProps {
 }
 
 const Timer: React.FC<TimerProps> = ({ initialMinutes, isRunning }) => {
-  const [timeLeft, setTimeLeft] = useState(initialMinutes * 60);
+  const validInitialMinutes = Math.max(0, Math.min(initialMinutes, 120));
+  const [seconds, setSeconds] = useState(validInitialMinutes * 60);
 
   useEffect(() => {
-    if (!isRunning || timeLeft <= 0) return;
+    if (!isRunning || seconds <= 0) return;
 
-    const interval = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+    const timer = setInterval(() => {
+      setSeconds((prev) => prev - 1);
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+    return () => clearInterval(timer);
+  }, [isRunning, seconds]);
 
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
 
   return (
     <div className="text-gray-700">
-      {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+      {mins.toString().padStart(2, "0")}:{secs.toString().padStart(2, "0")}
     </div>
   );
 };
