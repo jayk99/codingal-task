@@ -17,10 +17,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
   const mainReasons = ["Class completed", "Class interrupted/aborted"];
 
   const subReasons = [
-    "Student didn't show up for the class",
+    "Student didn't show up for the class.",
     "Student didn't show any interest.",
-    "Student got disconnected",
-    "I got disconnected",
+    "Student got disconnected.",
+    "I got disconnected.",
     "Other reason",
   ];
 
@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-[20px] w-full max-w-[480px] p-6 sm:p-8 relative"
+        className="bg-white rounded-md w-full max-w-[480px] p-6 sm:p-12 relative"
       >
         <button
           onClick={onClose}
@@ -65,7 +65,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
           Select a reason to end class
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-4 mb-8">
           {mainReasons.map((reason) => (
             <button
               key={reason}
@@ -122,7 +122,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
                       className="flex items-center w-full text-left group"
                     >
                       <div
-                        className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center
+                        className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center
                         ${
                           subReason === reason
                             ? "border-[#F87171] bg-[#F87171]"
@@ -133,7 +133,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
                           <motion.svg
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className="w-3 h-3 text-white"
+                            className="w-2.5 h-2.5 text-white"
                             viewBox="0 0 12 12"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -178,17 +178,11 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
           </AnimatePresence>
         </div>
 
-        <div className="mt-8 flex justify-end space-x-4">
-          <button
-            onClick={onCancel}
-            className="px-4 sm:px-6 py-2.5 text-gray-500 hover:text-gray-700 text-base sm:text-[17px] font-medium transition-colors"
-          >
-            Cancel
-          </button>
+        <div className="mt-8 flex justify-start space-x-4">
           <button
             onClick={onConfirm}
             disabled={!canEndClass}
-            className={`px-4 sm:px-6 py-2.5 text-white rounded-lg text-base sm:text-[17px] font-medium transition-colors
+            className={`px-4 sm:px-8 py-2 text-white rounded-md text-base sm:text-[17px] font-medium transition-colors
               ${
                 !canEndClass
                   ? "bg-gray-300 cursor-not-allowed"
@@ -196,6 +190,12 @@ const Modal: React.FC<ModalProps> = ({ onClose, onConfirm, onCancel }) => {
               }`}
           >
             End Class
+          </button>
+          <button
+            onClick={onCancel}
+            className="px-4 sm:px-6 py-2.5 text-gray-500 hover:text-gray-700 text-base sm:text-[17px] font-medium transition-colors"
+          >
+            Cancel
           </button>
         </div>
       </motion.div>
